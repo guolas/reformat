@@ -1,0 +1,10 @@
+- Concern about an increasin number of lines that have gone from `very stable` to `stable`, because maybe the reason for this change were the retrains, but the line is stable, so maybe the system is not moving back to a more stable profile with less (hopefully no) retrains. The thing is that there are lots of `stable` lines, and despite they have a small average number of retrains, it seems that they have a very strong impact on the overall average number of retrains (this is something that I don't quite get... he calculated this influence as:
+
+               average number of retrains * number of lines for that class
+               -----------------------------------------------------------
+                            total number of lines in the system
+
+But there is something I don't quite concur with. First he is just looking at averages, and that is hiding a lot of information. Much better option would be to look at distrubution of number of retrains and see how is it distributed, in order to see if there are some subset of lines with an abnormally high number of retrains, while the others remain more or less a "normal" levels.
+
+    DRDSV_80000k_608k:DRUSV_10000k_160k:NMV_6_6_adaptatinit:INPV_2_2_16_16_8_0_10:SPECTRUMV_8b_ginp:RFIV_disable:UPBOV_d_eqfext_klo_min:DPBOV_disable:VNV_disable
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------

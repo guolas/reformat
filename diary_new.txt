@@ -186,11 +186,8 @@ And they generate the folder `profiles` and the folder `tmatrix`.
 
 The files generated should be compared with the ones in:
 
-
-
-
-
-dsloExpresse/config/profiles/profiles/profiles_lineprofiles/profiles_lineprofiles_neuf/src/main/resources/profiles
+    dsloExpresse/config/profiles/profiles/profiles_lineprofiles/profiles_linepro
+files_neuf/src/main/resources/profiles
     dsloExpresse/config/stm/config/stm_sfr/src/main/resources/tmatrix
 
 The idea is check that the newly generated differ in the part that was intended
@@ -252,11 +249,9 @@ me to adapt/use.
 There is mail from Guillaume, where he comments something "strange" (for him),
 which is that the line 130510140 got the recommendation of the profile:
 
-
-
-
-
-DRDSV_80000k_608k:DRUSV_10000k_160k:NMV_6_6_adaptatinit:INPV_2_2_16_16_8_0_10:SPECTRUMV_8b_ginp:RFIV_disable:UPBOV_d_eqfext_klo_min:DPBOV_disable:VNV_disable
+    DRDSV_80000k_608k:DRUSV_10000k_160k:NMV_6_6_adaptatinit:INPV_2_2_16_16_8_0_1
+0:SPECTRUMV_8b_ginp:RFIV_disable:UPBOV_d_eqfext_klo_min:DPBOV_disable:VNV_disabl
+e
 
 and he wants to know why the 8b standard was selected instead of the 17a, for
 the case of recommending a rate of 80Mbps, because according to him with 8b it
@@ -265,8 +260,8 @@ that standard is contemplated in the profile specifications document, so not
 sure about why they put it there if they know that is not possible.
 
 Isa has told me that our own calibration information tell us that it is possible
-to synchronize the line using the standard 8b, for rates higher than 50Mbps,
-for short loops.
+to synchronize the line using the standard 8b, for rates higher than 50Mbps, for
+short loops.
 
 Isa has explained me the differences between the two VDSL standards:
 
@@ -312,9 +307,8 @@ generate a DB with its currect status and applying a differential change, based
 on the changes made.
 
 For the differential part, in the pom.xml there is a block to configure it.
-There are a series of lines that are commented, and it is necessary to
-uncomment the lines corresponding to the changes that are going to be made in
-the DB.
+There are a series of lines that are commented, and it is necessary to uncomment
+the lines corresponding to the changes that are going to be made in the DB.
 
 In the case of the fix we are working on, it involved just a change in the DB
 for the profiles, so only the part corresponding to "SFR specific profiles" is
@@ -414,8 +408,8 @@ with good news.
 
 The first one, about the line 130510140, we sent him the log of the PE, but it
 seems that in the log it says that there are no counters for the last 25h. He
-also commented that the CSV (shame on me, it was a regular text file, not a
-CSV) there were no timestamps, so it was not any good.
+also commented that the CSV (shame on me, it was a regular text file, not a CSV)
+there were no timestamps, so it was not any good.
 
 We have seen one curious thing about his, which is that in the table ADC_POP_P
 there are samples for the dates of interest, within the 25h window that he
@@ -437,8 +431,8 @@ According to Isa, this is already fixed, and it was due to the following:
 
 - Right now, as it is some kind of pilot, nothing permanent, there are two DcPc
 running, one of them collecting non-G.INP information, and the other one G.INP
-ready. The problem is that the PO was using the samples from the non-G.INP
-DcPc, and that is why there were no information available.
+ready. The problem is that the PO was using the samples from the non-G.INP DcPc,
+and that is why there were no information available.
 
 - The PO is configured to get the information from some part in the DB, and this
 is configured in the App Server in the following file:
@@ -463,15 +457,14 @@ As a side note, the PE is configured in:
     /usr/local/dslexpresse/server/config/bulk/Bulk.pe.config
 
 For the line 130042382, which is not showing AVG_EFTR_START nor AVG_EFTR_END in
-PO_STATE, despite seeming to be ok in PE (not-null values), the log that we
-sent him essentially was useless: it tells, immediately, that it was not
-processed by the PO because of "inconsistent equipment information".
+PO_STATE, despite seeming to be ok in PE (not-null values), the log that we sent
+him essentially was useless: it tells, immediately, that it was not processed by
+the PO because of "inconsistent equipment information".
 
 Well, the problem we have seen is that the PO failed when we launched it
-manually, with exit code 672, which is "Line was removed". If the line is
-looked up in PORT_INFO, the status of the line is 2, which means that it has
-been administratively set to out of service, I guess the client unregistered
-it.
+manually, with exit code 672, which is "Line was removed". If the line is looked
+up in PORT_INFO, the status of the line is 2, which means that it has been
+administratively set to out of service, I guess the client unregistered it.
 
 Another side note, the status in PORT_INFO can be 0 or 2, 2 meaning that is out
 of service, and 0 meaning that the line is active.
@@ -493,8 +486,8 @@ Before continuing to look at the lines for the G.INP pilot, I am finishing the
 fixes for the capitalized profile names and for the wrong tmatrix transitions.
 
 I have learned today that even though there are some profiles with a given speed
-and there are others with lower speeds, the transition may not be allowed by
-the definition of the commercial service, not because of the profile itself.
+and there are others with lower speeds, the transition may not be allowed by the
+definition of the commercial service, not because of the profile itself.
 
 The parameters of the commercial service are given in the table
 CONFIG_SERVICE_PRODUCT, the example I have run into is the product
@@ -508,9 +501,9 @@ in some email thread, ASSIA agreed with SFR that they would not be considered,
 but they are being considered.
 
 It all comes down to some condition test in the script that generates the
-Tmatrix. It seems that they included a column in the spreadsheets used as
-source to generate the Tmatrix, called `type`, which would be 2 for normal
-profiles, and 1 for profiles not allowed (exceeding the DS+US cap).
+Tmatrix. It seems that they included a column in the spreadsheets used as source
+to generate the Tmatrix, called `type`, which would be 2 for normal profiles,
+and 1 for profiles not allowed (exceeding the DS+US cap).
 
 For some reason Sara does not remember, in the code there is a part that
 considers this extra column, but it is commented, so... misterious right here
@@ -707,8 +700,8 @@ TARGET thresholds, but not necessarily the CURRENT thresholds.
 
 - In order for the system to recommend a change to a more restrictive (higher
 rate, lower protection,...) profile, the current profile should be above the
-CURRENT thresholds. This can be seen as "if you want to go to a more
-restrictive profile, you MUST do really good in your current state".
+CURRENT thresholds. This can be seen as "if you want to go to a more restrictive
+profile, you MUST do really good in your current state".
 
 After that, we have been talking about the way EFTR is working and we have come
 to the following conclusions:
@@ -746,8 +739,8 @@ STATUS_CODE  NUMBER OF OCCURENCES
 
 There has been only one more line exiting due to an "external profile change".
 This may mean, as far as I know, that the bug they had in SFR with the profile
-names is fixed, or that the lines need to be processed again to see if it
-really works.
+names is fixed, or that the lines need to be processed again to see if it really
+works.
 
 Regarding this, there is a funny thing about the line 320110141. We are in an
 ongoing discussion with Jeonghun about this line because of the way the EFTR
@@ -795,8 +788,8 @@ times of profile, so it may enter the "back'n'forth" routine soon enough.
 
 320708461:
 This line is still on the Optimization Phase, and it seemed to be working fine,
-but there are no POP_O samples since "2015-04-24 07:00:51", so the line is
-still in PO.
+but there are no POP_O samples since "2015-04-24 07:00:51", so the line is still
+in PO.
 
 320708205:
 This one seems to be running "normally", understood as, it has iterated through
@@ -905,8 +898,8 @@ presence of EFTR data, because even when TXMODEDS = 0 (not G.INP), there maybe
 information because it GINPCURRENTETRDS = CURRENTRATEDS.
 
 In order to look at the ADPD and VDPM in ADSL2+ cards that were reporting an
-abnormally high EFTR, we are going to look at Bouygues, which are supposed to
-be using the same cards, and see if they are also reporting values that are too
+abnormally high EFTR, we are going to look at Bouygues, which are supposed to be
+using the same cards, and see if they are also reporting values that are too
 high. In order to do this, to ease the process, I am going to send the query
 over to Lucía, and ask her to run it for me. So I have to prepare it:
 
@@ -979,19 +972,19 @@ that line.
 === CALL WITH SFR
 
 - They seem to be seriously concerned about the service product SERENITY,
-because of the experience some users are having. It seems that the
-configuration currently set for that product makes the service not too good,
-and clients are complaining.
+because of the experience some users are having. It seems that the configuration
+currently set for that product makes the service not too good, and clients are
+complaining.
 
 - It seems that the stability criteria for this service product may be too
 strict (the standard used by ASSIA for IPTV services) and the result is that
 sometimes the customers are not even able to use the product.
 
 - About G.INP, the main issue here is that Guillaume is not able to see a
-noticeable improvement in the (few) lines that have been in the pilot until
-now. This may be due to the "in the middle" change we did last week, so
-probably it is a good idea not to use those 100 lines from stage 1 for the
-analysis... we will see...
+noticeable improvement in the (few) lines that have been in the pilot until now.
+This may be due to the "in the middle" change we did last week, so probably it
+is a good idea not to use those 100 lines from stage 1 for the analysis... we
+will see...
 
 ================================================================================
 
@@ -1001,20 +994,14 @@ analysis... we will see...
 I have configured the connection in order to be able to look at the DB from
 Bouygues, and I have seen that the instructions given in:
 
-
-
-
-
-http://sharepoint.assia-inc.com/expresse/deployment/customers/bouygues/Misc%20Wiki%20Pages/Production%20Environment.aspx
+    http://sharepoint.assia-inc.com/expresse/deployment/customers/bouygues/Misc%
+20Wiki%20Pages/Production%20Environment.aspx
 
 are not precisely clear, and in fact there are things which are not right, as
 the user/password required to access the DB. But this is clear and accurate in:
 
-
-
-
-
-http://sharepoint.assia-inc.com/expresse/deployment/customers/bouygues/Customer%20Specifc%20Documents/Customer_Credentials.xlsx
+    http://sharepoint.assia-inc.com/expresse/deployment/customers/bouygues/Custo
+mer%20Specifc%20Documents/Customer_Credentials.xlsx
 
 In any case, the connection is a bit "complicated":
 
@@ -1101,9 +1088,9 @@ pasar por la fase de EFTR Maximization, con STATUS_CODE 610.
 
 En este caso, la última muestra de POP-O, que es posterior a que la línea
 saliera de PO, sí tiene un SNR margin de 21.4 dB, pero aun así no sé si se
-corresponde con lo que me has comentado, ya que ya había salido de PO. La
-última muestra de POP-O antes de salir de PO tenía un margen de 18.1 dB, que
-entiendo que es elevada, pero no son los 20 dB que me habías comentado.
+corresponde con lo que me has comentado, ya que ya había salido de PO. La última
+muestra de POP-O antes de salir de PO tenía un margen de 18.1 dB, que entiendo
+que es elevada, pero no son los 20 dB que me habías comentado.
 
 También me llama la atención que esta línea no llega a entrar en la fase de EFTR
 Maximization.
@@ -1126,8 +1113,8 @@ There are 38 lines that exited PO with status 660. Out of this, there is a
 curious thing:
 
 Line 556570184 is reported to have the same original and last profile, both of
-which are G.INP. The interesting thing is that there is only one record for
-this line in PO_RECORD, with DATE_REQUEST "2015-04-30 20:39:52", but there are
+which are G.INP. The interesting thing is that there is only one record for this
+line in PO_RECORD, with DATE_REQUEST "2015-04-30 20:39:52", but there are
 entries in PROFILE_CHANGE_STATUSCODES with date before that one, and there are
 also entries in PO_RECOMMENDATION_INFO for April 29th.
 
@@ -1154,8 +1141,8 @@ G.INP SP.
 EXP_M_12000k_1216k_INP1:EXP_max_MDSL::14M_1216k_s8_r0_r10_d16 but in PO_RECORD
 is the profile EXP_M_12000k_1216k_INP1:EXP_max_MDSL, and it should have changed
 to EXP_M_14016k_1216k_INP2:EXP_max_MDSL_PHYR::14M_1216k_s8_r0_r10_d16. It
-reports the G.INP profile since the very first day it was configured to have
-the G.INP SP.
+reports the G.INP profile since the very first day it was configured to have the
+G.INP SP.
 
 Apart from these three, the other 34 lines that exited PO with status 660, all
 of them is for the same reason: wrong PROFILE set in the DSLAM, compared to the
@@ -1192,9 +1179,9 @@ the beginning:
 [2015-05-05]
 
 It happens that most of the lines that exited PO with a STATUS_CODE 600, and the
-profile didn't change, so they still have the non-G.INP profile, it was
-because, for some reason, the PO evaluates the throughput for the non-G.INP
-profile, and it happens to be higher than the G.INP profile's.
+profile didn't change, so they still have the non-G.INP profile, it was because,
+for some reason, the PO evaluates the throughput for the non-G.INP profile, and
+it happens to be higher than the G.INP profile's.
 
 We are going to look for a line in a similar situation which is still in PO, and
 then run PO in SingleLine mode, so to get a log to send to Jeonghun.
@@ -1216,8 +1203,8 @@ fine.
 
 On a different note, I have checked the control group used for the G.INP pilot,
 and I have seen that from the 1000 lines that Guillaume inserted for the stage
-2, he changed quite a few of them, and some of them, 9, are in the control
-group we had selected before:
+2, he changed quite a few of them, and some of them, 9, are in the control group
+we had selected before:
 
     select line_id from ginp_ctrl
     where line_id in (select line_id from ginp_ramp_up where stage < 3 and
@@ -1249,8 +1236,8 @@ And done.
 The log I generated for Jeonghun was not useful because there was no new POP-O
 data for the line, and Jeonghun has told me that there is an option for the PO
 command line tool that lets you choose the date for the PO run. This way a past
-run can be repeated to get that information. Information about this can be
-found in Chapter 10 of the document:
+run can be repeated to get that information. Information about this can be found
+in Chapter 10 of the document:
 
     http://sharepoint.assia-inc.com/expresse/Expresse Training/ASSIA - Profile
 Optimizer - Internal Release Notes.docx
@@ -1357,11 +1344,11 @@ this seems of not much help.
 seems that the DS_SYNCH_RATE that we are using in the ADSL_PE_EST_SL table is
 the value stored in the field CURRENTRATEDS in the ADC_POP_O table, and it
 corresponds to the "Net Data Rate" reported by the DSLAM.
-    
+
 We have replied asking if they (Huawei) can provide more information about a
-possible change in the way they report the error free bits, and how they need
-to be processed to calculate the EFTR when the EFTR is not directly reported by
-the DSLAM.
+possible change in the way they report the error free bits, and how they need to
+be processed to calculate the EFTR when the EFTR is not directly reported by the
+DSLAM.
 
 --------------------------------------------------------------------------------
 [2015-05-12]
@@ -1384,8 +1371,8 @@ line with non-G.INP profiles with reported EFTR... And I have found a couple:
 477387935
 
 In both cases, they have a couple of feasible profiles to choose from, one G.INP
-and another non-G.INP. And the result is that they are in the non-G.INP
-profile, and both report EFTR, but it is similar and they have the message:
+and another non-G.INP. And the result is that they are in the non-G.INP profile,
+and both report EFTR, but it is similar and they have the message:
 
 - 477387935: "Averaged DS AVG_EFTR of
 EXP_10016k_1024k:Extend_1_1_phyr_ginp_10016k: 9216.933333333332 kbps, Averaged
@@ -1403,8 +1390,8 @@ They stay in there because if the difference is lower than the 3% (hardcoded,
 according to the documentation I have from the GINP design) it will not change.
 
 I am running PO for the line 386661730, as if it were the "2015-05-10 00:51:39",
-to see if it is still doing something similar to what happened before we
-changed the po start time. And I will take a look a the log later.
+to see if it is still doing something similar to what happened before we changed
+the po start time. And I will take a look a the log later.
 
 Regarding the lines that were suffering from sporadic disconnections in SFR,
 after stage 3 started, we are going to look at the DSLAM with the line that
@@ -1461,9 +1448,9 @@ line card.
 suggests this OR perform a collection in debug, maybe this is simpler.
 
 The way to perform that snmpwalk is by using the utility with that name
-`snmpwalk` on the dslam where the line is connected. For the line 477387935,
-the OID for the SNMP request is that long number, so from the machine where the
-DcPc is, I run:
+`snmpwalk` on the dslam where the line is connected. For the line 477387935, the
+OID for the SNMP request is that long number, so from the machine where the DcPc
+is, I run:
 
 snmpwalk -v1 -c rledacd 109.24.60.86 1.3.6.1.4.1.2011.6.31.1.34.1.7.201452544
 
@@ -1482,23 +1469,19 @@ In the table V_PROFILES, there is a field GINP_MODE_DS, which indicates if the
 profile has G.INP activated or not.
 
 One thing that I have observed today is that maybe, what is wrong with the ADPD
-and VDPM cards is the DS_SYNCH_RATE and not the DS_AVG_EFTR. My reasoning to
-say this is that the EFTR is in every case similar to the MAX_RATE_DS of the
+and VDPM cards is the DS_SYNCH_RATE and not the DS_AVG_EFTR. My reasoning to say
+this is that the EFTR is in every case similar to the MAX_RATE_DS of the
 profile, while the SYNCH rate is consistently an 80% of the MAX_RATE_DS.
 
 I have checked that we are collecting and identifying the correct information
 from the DSLAM (the synch_rate is the current_rate_ds, obtained through the OID
-1.3.6.1.2.1.10.94.1.1.4.1.2.ifIndex, and the EFTR is "more or less" the
-MIN_EFTR in the DS (FEND), collected using OID
-1.3.6.1.4.1.2011.6.31.1.34.1.7.ifIndex
+1.3.6.1.2.1.10.94.1.1.4.1.2.ifIndex, and the EFTR is "more or less" the MIN_EFTR
+in the DS (FEND), collected using OID 1.3.6.1.4.1.2011.6.31.1.34.1.7.ifIndex
 
 The information about these OID can be found in:
 
-
-
-
-
-http://rc-build-01.assia-inc.com/dsloExpresse/dcpc/dcpc_snmp/dcpc_huawei_common/mib_description.html
+    http://rc-build-01.assia-inc.com/dsloExpresse/dcpc/dcpc_snmp/dcpc_huawei_com
+mon/mib_description.html
 
 For the Huawei DSLAMs in particular, and in:
 
@@ -1615,8 +1598,8 @@ machine as the other DcPc, but its request generator is in the same machine, so
 there were collections, but they couldn't be transfered to the Application
 server for the PO to use them.
         + After the communication problem was solved, José manually transfered
-the collections that were made (only for the G.INP trial lines), so POP-O,
-POP-P and PE tables are populated.
+the collections that were made (only for the G.INP trial lines), so POP-O, POP-P
+and PE tables are populated.
         + In any case, it can be seen from the PO_RECOMMENDATION_INFO that the
 PO couldn't find any sample for those troublesome days (2015-05-07 through
 2015-05-09).
@@ -1676,8 +1659,8 @@ perfiles assia no gestionados; 2: perfiles assia gestionados; 3: perfiles  del
 SR (los virtuales, service recommender); 4: perfiles del operador gestionados.
 
 Herramienta de creaación de perfiles del DcPc usa este campo para saber cuáles
-va a cargar. Se pueden categorizar los perfiles (assia u operador) e informar
-al DcPc si ha de gestionarlos o no.
+va a cargar. Se pueden categorizar los perfiles (assia u operador) e informar al
+DcPc si ha de gestionarlos o no.
 
 Se usa G.INP pero no el advanced. La diferencia es que no se monitoriza el EFTR.
 Esto equivaldría al PhyR de SFR. Se puede intentar mirar a ver si también se
@@ -1801,24 +1784,24 @@ follows:
 
     SELECT SHINE_RATIO_DS, COUNT(*) FROM ASSIA_USER.V_PROFILES
     GROUP BY SHINE_RATIO_DS;
-    
+
     -- NULL 9579
     -- 0    936
-    
+
     SELECT SHINE_RATIO_US, COUNT(*) FROM ASSIA_USER.V_PROFILES
     GROUP BY SHINE_RATIO_US;
-    
+
     -- NULL 10515
-    
+
     SELECT MIN_INP_REIN_DS, COUNT(*) FROM ASSIA_USER.V_PROFILES
     GROUP BY MIN_INP_REIN_DS;
-    
+
     -- NULL 9579
     -- 0    936
-    
+
     SELECT MIN_INP_REIN_US, COUNT(*) FROM ASSIA_USER.V_PROFILES
     GROUP BY MIN_INP_REIN_US;
-    
+
     -- NULL 10515
 
 So, all profiles have values either `NULL` or 0, so the changes should not
@@ -1828,8 +1811,8 @@ affect.
 
 - I am trying to analyze the advantages of using G.INP for SFR, compared to not
 using it. In order to do that, I am trying to get the information from the DB,
-with a query, so that I can share it more easily with the rest of the people,
-in case of need.
+with a query, so that I can share it more easily with the rest of the people, in
+case of need.
 
 Right now what I am trying to do is to find examples of lines which were stable
 before the change to G.INP, and that are stable now, but which rate has
@@ -1858,8 +1841,8 @@ USING (LINE_ID)
 WHERE AFT.DS_SYNCH_RATE / BEF.DS_SYNCH_RATE < 0.8;
 
 I can get the lines which were stable on 2015-05-06 (just before the start of
-stage 3), and were stable on 2015-06-01 (way after the change was done), and
-for which the after over before ratio of the synch rate is lower than 80%.
+stage 3), and were stable on 2015-06-01 (way after the change was done), and for
+which the after over before ratio of the synch rate is lower than 80%.
 
 There are 1825 lines in this situation, some of them with ISAM, some with
 HUAWEI. I am going to look into ISAM DSLAMs because for those the problem with
@@ -1889,8 +1872,8 @@ happened... But that... not today!
 
 - First thing, for me to remember, the table PARTITIONED_TABLES has the
 information about which tables are partitioned and, additionally, it has
-information about the number of days that is kept in the DB, the retention
-days, in the field `HISTORY_DAYS.
+information about the number of days that is kept in the DB, the retention days,
+in the field `HISTORY_DAYS.
 
 As it is specified in `PARTITIONED_TABLES`, the table `PO_RECOMMENDATION_INFO`
 has a retention policy of 20 `HISTORY_DAYS`, which means that we have already
@@ -1902,32 +1885,23 @@ Nevertheless, Isa suggested that maybe something can be ... arranged using the
 information in ADSL_PE_EST_SL as follows:
 
 - On the day the line changed from PhyR to G.INP, take a look at the speed of
-the EFTR (which has been correct all along), and see if that EFTR increases
-when the profile changes to lower speeds...
+the EFTR (which has been correct all along), and see if that EFTR increases when
+the profile changes to lower speeds...
 
 - Next, I have tried the new JAR file for the collections from Huawei DSLAMs
-that Iker provided. And it is working as expected, with the ETR being lower
-than the synch_rate, as it should. The way to check which fields are which in
-the POP-P and POP-O collection, is using the information in:
+that Iker provided. And it is working as expected, with the ETR being lower than
+the synch_rate, as it should. The way to check which fields are which in the
+POP-P and POP-O collection, is using the information in:
 
-
-
-
-
-http://rc-build-01.assia-inc.com/dsloExpresse/dcpc/dcpc_fileformat/xref/com/assia/dslo/dcpc/fileformat/DcPcPopPOutputFields.html
-
-
-
-
-http://rc-build-01.assia-inc.com/dsloExpresse/dcpc/dcpc_fileformat/xref/com/assia/dslo/dcpc/fileformat/DcPcPopOOutputFields.html
+    http://rc-build-01.assia-inc.com/dsloExpresse/dcpc/dcpc_fileformat/xref/com/
+assia/dslo/dcpc/fileformat/DcPcPopPOutputFields.html
+    http://rc-build-01.assia-inc.com/dsloExpresse/dcpc/dcpc_fileformat/xref/com/
+assia/dslo/dcpc/fileformat/DcPcPopOOutputFields.html
 
 respectively. This information is also available in the CVS code:
 
-
-
-
-
-/cvs/dsloExpresse/dcpc/dcpc_fileformat/src/main/java/com/assia/dslo/dcpc/fileformat/
+    /cvs/dsloExpresse/dcpc/dcpc_fileformat/src/main/java/com/assia/dslo/dcpc/fil
+eformat/
 
 Now, the change has been done for Huawei, but not for ISAM, so, if they do not
 manage to fix it for ISAM before we apply the patch, the solution is to change
@@ -2008,10 +1982,10 @@ There are three samples for which the MAXRATEDS / GINPMAXETRDS < 1, but they are
 0.99, so it is not really an issue.
 
 - Next we have to check PE results, if DS_SYNCH_RATE >= DS_AVG_EFTR for today.
-They seem to be right, except that there are some lines (very few of them)
-which have started to synchronize at a very low speed, but this may be a
-momentary problem and the PO should take care of them. There are 367 such
-lines, but only 151 lines have a ratio over 1.02.
+They seem to be right, except that there are some lines (very few of them) which
+have started to synchronize at a very low speed, but this may be a momentary
+problem and the PO should take care of them. There are 367 such lines, but only
+151 lines have a ratio over 1.02.
 
 I have found another thing, in the GINP_RAMP_UP table, there are some lines
 which are duplicated, so we have them with the ACTIVE_FLAG set to 0 and 1... so
@@ -2025,7 +1999,7 @@ G.INP information. For example the lines:
     GROUP BY LINE_ID)
     WHERE NO_ENTRIES > 1)
     AND ACTIVE_FLAG = 0;
-    
+
 I am going to delete those, because they are already active in another stage,
 and they are just messing around:
 
@@ -2039,13 +2013,13 @@ and they are just messing around:
     WHERE NO_ENTRIES > 1)
     AND ACTIVE_FLAG = 0)
     AND ACTIVE_FLAG = 0;
-    
+
     COMMIT;
 
 After this, I have seen that there is a line: 130903802, which has a G.INP
 service product, a G.INP profile, GINPCURRENTETRDS in V_ADC_POP_O_GINP_TRIAL,
-non null ERROR_FREE_BITS_FEND, but still in ADSL_PE_EST_SL the field
-DS_AVG_EFTR is set to null... who knows what is happening.
+non null ERROR_FREE_BITS_FEND, but still in ADSL_PE_EST_SL the field DS_AVG_EFTR
+is set to null... who knows what is happening.
 
 For another line: 140350683, it seems that the PE is using the information from
 the table ADC_POP_O instead of from the view...
@@ -2061,8 +2035,8 @@ STAGE = 4;
     COMMIT;
 
 And again, there were some lines (106) in the control group that have been
-selected as part of this stage of the pilot, so I delete them from the
-GINP_CTRL table.
+selected as part of this stage of the pilot, so I delete them from the GINP_CTRL
+table.
 
     DELETE FROM GINP_CTRL
     WHERE LINE_ID IN (SELECT LINE_ID FROM GINP_RAMP_UP WHERE STAGE = 4);
@@ -2081,7 +2055,7 @@ The other 4618 have the G.INP product, but they didn't enter PO.
     JOIN (SELECT * FROM GINP_RAMP_UP WHERE STAGE = 4)
     USING (LINE_ID)
     GROUP BY IS_PO_ENABLED;
-    
+
     IS_PO_ENABLED  COUNT(*)
     1              5323
     0              4618
@@ -2166,8 +2140,8 @@ PO_RECORD is 9614... there should be some repeated lines, in both tables...
 - OK, there is a line, 491263229, which exited PO with code 673 (*), so this one
 went back to PO_STATE.
 (*) Abortan la ejecución de PO para esa línea a través de la NAPI, o cuando se
-detecta un cambio de tarjeta o de vendor_id (pero esto del vendor_id en SFR
-está desactivado), (en este caso se sale y vuelve a entrar, con source = 4)
+detecta un cambio de tarjeta o de vendor_id (pero esto del vendor_id en SFR está
+desactivado), (en este caso se sale y vuelve a entrar, con source = 4)
 
 - This is just a mess... but at least today they worked... let's see what
 happens tomorrow...
@@ -2252,8 +2226,8 @@ trial lines and the control group.
 [2015-06-25]
 
 - I am going to back up the information in PO_RECOMMENDATION_INFO for the lines
-in the trial, so that later, I can look at what were the reasons for the
-profile changes, hopefully, helping us sell the G.INP to SFR.
+in the trial, so that later, I can look at what were the reasons for the profile
+changes, hopefully, helping us sell the G.INP to SFR.
 
     CREATE TABLE TEMP_JGARCIA_PO_RI_20150614 AS
     SELECT * FROM PO_RECOMMENDATION_INFO
@@ -2270,8 +2244,8 @@ I change the dates from 20150611 till today (20150625).
 [2015-06-26]
 
 - In order to make the modification for the ticket SKY-390, creating the
-exclusion list for the CPE not supporting (or not using) G.INP, I have to
-create a new table, and a new view.
+exclusion list for the CPE not supporting (or not using) G.INP, I have to create
+a new table, and a new view.
 
 - These changes imply generating a couple of SQL scripts, and then these scripts
 should be included in the `pom.xml` of the `releases/sky/sky_db/`.
@@ -2330,7 +2304,8 @@ Although they may be in so many other web sites as well.
 After performing the build in lexus, I can proceed to install and launch all the
 modules in Jenkins:
 
-http://rc-build-01.assia-inc.com:8080/view/DSL%20Expresse%20Group/view/Nightly%20deployments/job/Sky_Nightly_Deployment/
+http://rc-build-01.assia-inc.com:8080/view/DSL%20Expresse%20Group/view/Nightly%2
+0deployments/job/Sky_Nightly_Deployment/
 
 Where a nightly build can be started, and the status of this build can be
 checked.
@@ -2377,8 +2352,8 @@ ACTIVE_FLAG = 1)
     WHERE AFT.DS_SYNCH_RATE / BEF.DS_SYNCH_RATE < 0.7;
 
 When I have some lines like this, I look at individual lines, and see if the
-transitions through profiles, reducing the rate, is motivated by not meeting
-the requirements for the throughput.
+transitions through profiles, reducing the rate, is motivated by not meeting the
+requirements for the throughput.
 
 --------------------------------------------------------------------------------
 [2015-07-06]
@@ -2388,8 +2363,8 @@ the requirements for the throughput.
 
 - The catch here is that before the lines were provisioned with the G.INP
 product, they didn't report EFTR, so what we are going to assume is that the
-EFTR for the PhyR profile was "more or less" the same of the first G.INP
-profile configured for the line.
+EFTR for the PhyR profile was "more or less" the same of the first G.INP profile
+configured for the line.
 
 - So, with this query we find the lines that have a lower rate profile after the
 PO, and store their `LINE_ID` in a temporary table:
@@ -2453,8 +2428,8 @@ applied to SFR case. They need to sell it, so the more we can help them, the
 better.
     + It seems that they want to add a new operator (whatever that means). It
 was something they talked back in the day, but was in stand by, and it seems
-that now, the project has seen the light. And for this they need us to send
-them what information is necessary to include a new operator in ASSIA system.
+that now, the project has seen the light. And for this they need us to send them
+what information is necessary to include a new operator in ASSIA system.
 
 - Isa has found that in the G.INP tmatrices of SFR, the last profiles in the
 transitions are duplicated, so I need to take a look at that...
@@ -2497,7 +2472,7 @@ lookup values
     2015-07-10 04:01:24,219 [pool-AssiaBulkDbThreads-thread-6] DEBUG
 predictor.ProbabilityLookup  - Default lookup is retrieved. Updating mabr
 samplers accordingly
-    
+
 Where it explains that there is a table which is not found, the table
 PO_SUCCESS_PREDICTOR.
 
@@ -2559,25 +2534,25 @@ queries:
     SELECT * FROM HIST_PORT_INFO
     WHERE LINE_ID = '130042161'
     ORDER BY LAST_UPDATE_DATE DESC;
-    
+
     SELECT * FROM ADSL_PE_EST_SL
     WHERE LINE_ID = '130042161'
     AND TRUNC(ESTIMATION_DATE) >= TO_TIMESTAMP('2015-07-09', 'YYYY-MM-DD')
     AND TRUNC(ESTIMATION_DATE) <= TO_TIMESTAMP('2015-07-17', 'YYYY-MM-DD')
     ORDER BY ESTIMATION_DATE DESC;
-    
+
     SELECT * FROM V_ADC_POP_O_GINP_TRIAL
     WHERE TN = '130042161'
     AND TRUNC(COLLECTION_DATE) >= TO_TIMESTAMP('2015-07-09', 'YYYY-MM-DD')
     AND TRUNC(COLLECTION_DATE) <= TO_TIMESTAMP('2015-07-17', 'YYYY-MM-DD')
     ORDER BY COLLECTION_DATE DESC;
-    
+
     SELECT * FROM V_ADC_POP_P_GINP_TRIAL
     WHERE TN = '130042161'
     AND TRUNC(COLLECTION_DATE) >= TO_TIMESTAMP('2015-07-09', 'YYYY-MM-DD')
     AND TRUNC(COLLECTION_DATE) <= TO_TIMESTAMP('2015-07-17', 'YYYY-MM-DD')
     ORDER BY COLLECTION_DATE DESC;
-    
+
     SELECT LINE_ID, COLLECTION_DATE, STATUS_CODE, CODE_DESCRIPTION FROM
 DCPC_STATUS_CODE A
     JOIN STATUS_CODES_DESCRIPTIONS B
@@ -2634,9 +2609,9 @@ for the system to not consider that "corrupted" sample.
 - In order to make it easier to build the graph from the collections reports, as
 it was needed yesterday, I have written a small python script that will look at
 the collections reports (downloaded using another script, this one got from the
-web, and just slightly modified, in VBA) and gather the information requiered
-to be able to insert that information in a spreadsheet for further modification
-(or mainly plotting purposes).
+web, and just slightly modified, in VBA) and gather the information requiered to
+be able to insert that information in a spreadsheet for further modification (or
+mainly plotting purposes).
 
 - Interestingly, in the collections reports there is also a breakdown of the
 information per DSLAM type, and it seems to happen that MOST of the lines with
@@ -2662,16 +2637,16 @@ be interesting:
 
     + SKY-444: He wants a crude estimate for the impact of the new fast profiles
 on the retrains. Well ... we can give an upper bound, given by the lines that
-currently are unstable because of retrains and CVs in US. At most, these are
-the lines that may benefit, but this is not a guarantee that they are going to
+currently are unstable because of retrains and CVs in US. At most, these are the
+lines that may benefit, but this is not a guarantee that they are going to
 improve.
     + SKY-445: He wants to know if we can provide more information about how the
 PO decides what profile from the t-matrix is assigned based on the priority
 socres. We have no "priority scores" except for the order in the t-matrix
 entries. They can always look at the PO_RECOMMENDATION_INFO table, but this
 table is more for internal debugging use, than for regular use, and we are not
-going to be spending a lot of time explaining in detail all the information
-that can be found there, maybe some examples.
+going to be spending a lot of time explaining in detail all the information that
+can be found there, maybe some examples.
 
 - In any case, after talking to Steven on the phone the following is what I get
 from it:
@@ -2680,13 +2655,13 @@ from it:
 he has been doing some kind of quick analysis (he will upload this information
 to the tickets for us to review) and it seems that there is some "shift" in the
 profile distribution from 32/4 profiles (for non-G.INP) to 16/2 (for G.INP)
-profiles, and it also seems that 16/2 users are showing a slightly higher
-number of retrains (on average).
+profiles, and it also seems that 16/2 users are showing a slightly higher number
+of retrains (on average).
     + He has also mentioned something about some profiles that they were pushing
 into a given speed, and then PO was turning back into the original speed, some
 kind of loop, that is not good, but I am not sure about what ticket he was
-talking about (something about the retrain increase in April, but not sure
-which one it was.
+talking about (something about the retrain increase in April, but not sure which
+one it was.
 
 --------------------------------------------------------------------------------
 [2015-08-04]
@@ -2725,13 +2700,12 @@ tickets, and all the "complicated math" that he has used there.
 So there are a couple of things:
 
 - Concern about an increasin number of lines that have gone from `very stable`
-to `stable`, because maybe the reason for this change were the retrains, but
-the line is stable, so maybe the system is not moving back to a more stable
-profile with less (hopefully no) retrains. The thing is that there are lots of
-`stable` lines, and despite they have a small average number of retrains, it
-seems that they have a very strong impact on the overall average number of
-retrains (this is something that I don't quite get... he calculated this
-influence as:
+to `stable`, because maybe the reason for this change were the retrains, but the
+line is stable, so maybe the system is not moving back to a more stable profile
+with less (hopefully no) retrains. The thing is that there are lots of `stable`
+lines, and despite they have a small average number of retrains, it seems that
+they have a very strong impact on the overall average number of retrains (this
+is something that I don't quite get... he calculated this influence as:
 
                average number of retrains * number of lines for that class
                -----------------------------------------------------------
@@ -2740,8 +2714,8 @@ influence as:
 But there is something I don't quite concur with. First he is just looking at
 averages, and that is hiding a lot of information. Much better option would be
 to look at distrubution of number of retrains and see how is it distributed, in
-order to see if there are some subset of lines with an abnormally high number
-of retrains, while the others remain more or less a "normal" levels.
+order to see if there are some subset of lines with an abnormally high number of
+retrains, while the others remain more or less a "normal" levels.
 
 - The other thing is that Steven is slightly worried that with the new profiles
 that are going to be included things are going to get worse, in terms of
@@ -2771,13 +2745,13 @@ into PO and everything went great, lines stabilized.
 everything went great, lines got a higher DS rate.
 
 And now they are doing this to lines with a DS rate between 1 and 2 megabytes,
-but they are observing that the number of retrains is increasing (they
-seriously have an issue with the retrains).
+but they are observing that the number of retrains is increasing (they seriously
+have an issue with the retrains).
 
 He has shared with me the query they use to select the lines (in the ticket
 SKY-445), and he has also sent me a query that he has been running and with
-which he has found that there are some lines that have been pushed into PO a
-lot of times, but they essentially entered PO and exited without much change.
+which he has found that there are some lines that have been pushed into PO a lot
+of times, but they essentially entered PO and exited without much change.
 
     SELECT LINE_ID, STATUS_CODE,
     COUNT(CASE WHEN SOURCE = 0 THEN 1 END) NEW_LINE,
@@ -2799,8 +2773,7 @@ bit more.
 
 We had also the meeting with SFR, and it seems that they are going to insert the
 rest (~15k) of the lines in the pilot tomorrow Thursday, and with that the only
-thing remaining would be just to generate the report for Guillaume to "sell"
-it.
+thing remaining would be just to generate the report for Guillaume to "sell" it.
 
 Guillaume has mentioned a couple of important points to stress:
 
@@ -2871,7 +2844,7 @@ the pilot so, time to remove them :)
     FROM GINP_CTRL
     JOIN GINP_RAMP_UP USING (LINE_ID)
     WHERE STAGE = 6);
-    
+
     COMMIT;
 
 Which leaves us with the following figures for the control and the trial groups:
@@ -2909,19 +2882,11 @@ done the following query in production:
     JOIN
     VENDOR_ID_INFO_LATEST USING (LINE_ID)
     WHERE VENDORID_FIELD2 != 'B500545354430000'
-
-
-
-
-AND
-VENDORID_FIELD1
-IN
-('44:53:4C:2D:32:36:34:30:53:5F:32:2E:30:34:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00',
-
-
-
-
-'44:53:4C:2D:32:36:34:30:53:5F:32:2E:30:34:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00')
+    AND VENDORID_FIELD1 IN
+('44:53:4C:2D:32:36:34:30:53:5F:32:2E:30:34:00:00:00:00:00:00:00:00:00:00:00:00:
+00:00:00:00:00:00',
+    '44:53:4C:2D:32:36:34:30:53:5F:32:2E:30:34:00:00:00:00:00:00:00:00:00:00:00:
+00:00:00:00:00:00:00')
     ;
 
 and there are only 3599 lines affected.
@@ -2932,19 +2897,11 @@ The line that was commented out in the file:
 
 was the following:
 
-INSERT
-INTO
-PO_SERVICE_TYPE_MAP
-(dslam_type,
-service_type,LINE_CARD_TYPE,
-LINE_CARD_VERSION,
-CPE_SERIAL_NUMBER,
-tmatrix,
-thresholds,
-weights,
-force)
+INSERT INTO PO_SERVICE_TYPE_MAP (dslam_type, service_type,LINE_CARD_TYPE,
+LINE_CARD_VERSION, CPE_SERIAL_NUMBER, tmatrix, thresholds, weights, force)
 VALUES
-('ISAM','DLM_L_20080826','UNKNOWN','UNKNOWN','NO_GINP','DLM_H_20080826_ISAM_NALT-C.csv','ISAM','weightsAll.txt',0);
+('ISAM','DLM_L_20080826','UNKNOWN','UNKNOWN','NO_GINP','DLM_H_20080826_ISAM_NALT
+-C.csv','ISAM','weightsAll.txt',0);
 
 I have told Emrah, and now let's see what happens next.
 
@@ -3202,7 +3159,7 @@ following:
 Here we are not taking considering the collections which code was [2|1]00 and
 [2|2]01, which corresponds to "everything went fine" and "line is OOS",
 respectively.
-    
+
 --------------------------------------------------------------------------------
 [2015-08-24]
 
@@ -3246,13 +3203,13 @@ lines in SFR not changing the profile correctly. For the last stage, there were
         EXP_M_2048k_480k_INP1:EXP_max_MDSL_PHYR::2048k_480k_s8_r0_r10_d16
                                    vvv
         EXP_M_2048k_480k_INP1:EXP_max_MDSL_PHYR::1024k_320k_s8_r0_r10_d16
-    
+
     471042356 -> Had the profile
         EXP_M_10M_INP1:EXP_max_MDSL_PHYR
 
         is recommended to change to
         EXP_M_10016k_1024k_INP2:EXP_max_MDSL_PHYR::10M_1M_s8_r0_r10_d16
-        
+
         but it changes to:
         EXP_M_10M_INP1:EXP_max_MDSL_PHYR::10M_1M_s8_r0_r10_d16
 
